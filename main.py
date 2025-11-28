@@ -47,6 +47,25 @@ def mutate_simple(individual, mutation_rate):
     return (individual,)
 
 
+def mutate_gaussian(individual, mutation_rate, sigma=0.2):
+    # choose a number of positions relative to sigma and mutate them
+    n = max(1, int(len(individual) * sigma))
+    positions = random.sample(range(len(individual)), n)
+    for pos in positions:
+        if random.random() < mutation_rate:
+            individual[pos] = random.choice(CHARS)
+    return (individual,)
+
+
+def mutate_swap(individual, mutation_rate):
+    # perform several random swaps based on mutation_rate
+    n_swaps = sum(1 for _ in range(len(individual)) if random.random() < mutation_rate)
+    for _ in range(n_swaps):
+        i, j = random.sample(range(len(individual)), 2)
+        individual[i], individual[j] = individual[j], individual[i]
+    return (individual,)
+
+
 # ---------- Crossover operators (in-place) ----------
 def cx_one_point(ind1, ind2):
     if len(ind1) <= 1:
@@ -123,6 +142,12 @@ def run_evolution(
     # mutation registration (for adaptive we will re-register inside loop)
     if mutation_method == "simple":
         toolbox.register("mutate", mutate_simple, mutation_rate=mutation_rate)
+    elif mutation_method == "gaussian":
+        toolbox.register(
+            "mutate", mutate_gaussian, mutation_rate=mutation_rate, sigma=0.2
+        )
+    elif mutation_method == "swap":
+        toolbox.register("mutate", mutate_swap, mutation_rate=mutation_rate)
     else:
         toolbox.register("mutate", mutate_simple, mutation_rate=mutation_rate)
 
