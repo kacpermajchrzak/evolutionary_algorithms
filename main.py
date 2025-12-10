@@ -1,15 +1,22 @@
 import random
 import string
+import csv
+import json
 from pathlib import Path
 from statistics import mean, stdev
 from deap import base, creator, tools
 import matplotlib.pyplot as plt
+import sys
 
 # ---------- Directory Setup ----------
 BASE_DIR = Path(__file__).parent
 PLOTS_DIR = BASE_DIR / "plots"
+RESULTS_DIR = BASE_DIR / "results"
+DATA_DIR = BASE_DIR / "data"
 
 PLOTS_DIR.mkdir(exist_ok=True)
+RESULTS_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(exist_ok=True)
 
 # ---------- Configuration ----------
 TARGET = "HELLO WORLD"
@@ -66,6 +73,14 @@ def mutate_swap(individual, mutation_rate):
     return (individual,)
 
 
+def mutate_adaptive(individual, base_rate, generation, max_gen=1000):
+    adaptive_rate = base_rate * (1.0 - (generation / float(max_gen)))
+    for i in range(len(individual)):
+        if random.random() < adaptive_rate:
+            individual[i] = random.choice(CHARS)
+    return (individual,)
+
+
 # ---------- Crossover operators (in-place) ----------
 def cx_one_point(ind1, ind2):
     if len(ind1) <= 1:
@@ -76,6 +91,29 @@ def cx_one_point(ind1, ind2):
     tail2 = ind2[pt:]
     ind1[pt:], ind2[pt:] = tail2, tail1
     return ind1, ind2
+
+
+def cx_two_point(ind1, ind2):
+    if len(ind1) < 2:
+        return ind1, ind2
+    p1 = random.randint(1, len(ind1) - 2)
+    p2 = random.randint(p1 + 1, len(ind1) - 1)
+    seg1 = ind1[p1:p2]
+    seg2 = ind2[p1:p2]
+    ind1[p1:p2], ind2[p1:p2] = seg2, seg1
+    return ind1, ind2
+
+
+def cx_uniform(ind1, ind2, prob=0.5):
+    for i in range(len(ind1)):
+        if random.random() < prob:
+            ind1[i], ind2[i] = ind2[i], ind1[i]
+    return ind1, ind2
+
+
+# simple blend-like (same as uniform but with 50/50)
+def cx_blend(ind1, ind2):
+    return cx_uniform(ind1, ind2, prob=0.5)
 
 
 # ---------- Main evolution function ----------
@@ -136,6 +174,12 @@ def run_evolution(
     # mating registration
     if crossover_method == "one_point":
         toolbox.register("mate", cx_one_point)
+    elif crossover_method == "two_point":
+        toolbox.register("mate", cx_two_point)
+    elif crossover_method == "uniform":
+        toolbox.register("mate", cx_uniform)
+    elif crossover_method == "blend":
+        toolbox.register("mate", cx_blend)
     else:
         toolbox.register("mate", cx_one_point)
 
@@ -148,6 +192,15 @@ def run_evolution(
         )
     elif mutation_method == "swap":
         toolbox.register("mutate", mutate_swap, mutation_rate=mutation_rate)
+    elif mutation_method == "adaptive":
+        # placeholder; will be re-registered each generation with current generation
+        toolbox.register(
+            "mutate",
+            mutate_adaptive,
+            base_rate=mutation_rate,
+            generation=0,
+            max_gen=generations,
+        )
     else:
         toolbox.register("mutate", mutate_simple, mutation_rate=mutation_rate)
 
@@ -167,6 +220,17 @@ def run_evolution(
     generations_to_target = None
 
     for gen in range(1, generations + 1):
+        # If adaptive mutation, update registration with current generation
+        if mutation_method == "adaptive":
+            # re-register mutate wrapping current generation
+            toolbox.register(
+                "mutate",
+                mutate_adaptive,
+                base_rate=mutation_rate,
+                generation=gen,
+                max_gen=generations,
+            )
+
         # selection
         offspring = toolbox.select(pop, len(pop))  # type: ignore
         offspring = list(map(toolbox.clone, offspring))  # type: ignore
@@ -334,32 +398,230 @@ def plot_evolution_stats(results, title="Evolution Progress"):
     return fig
 
 
-# ---------- Example usage ----------
-if __name__ == "__main__":
-    result1 = run_evolution(
-        target="HELLO WORLD",
-        population_size=120,
-        generations=2000,
-        mutation_rate=0.05,
-        crossover_rate=0.7,
-        mutation_method="simple",
-        crossover_method="one_point",
-        selection_method="tournament",
-        track_stats=True,
-        verbose=True,
+def compare_configurations(
+    results_list, metric="generations_to_target", title="Configuration Comparison"
+):
+    """Compare multiple GA configurations."""
+    labels = []
+    values = []
+
+    for result in results_list:
+        config = result["config"]
+        label = f"{config['mutation_method'][:3]}-{config['crossover_method'][:3]}-{config['selection_method'][:3]}"
+        labels.append(label)
+
+        if metric == "generations_to_target":
+            values.append(result["generations_to_target"])
+        elif metric == "final_diversity":
+            values.append(result["final_diversity"])
+        elif metric == "final_avg_fitness":
+            values.append(result["final_avg_fitness"])
+
+    plt.figure(figsize=(12, 6))
+    plt.bar(labels, values, color="steelblue", alpha=0.7)
+    plt.xlabel("Configuration (Mutation-Crossover-Selection)")
+    plt.ylabel(metric.replace("_", " ").title())
+    plt.title(title)
+    plt.xticks(rotation=45, ha="right")
+    plt.grid(True, alpha=0.3, axis="y")
+    plt.tight_layout()
+    return plt.gcf()
+
+
+def save_results_to_csv(results, filename="results.csv"):
+    """Save experiment results to CSV file."""
+    stats = results["stats_history"]
+
+    filepath = DATA_DIR / filename
+
+    with open(filepath, "w", newline="") as csvfile:
+        fieldnames = [
+            "generation",
+            "best_fitness",
+            "avg_fitness",
+            "std_fitness",
+            "diversity",
+            "best_string",
+        ]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for i in range(len(stats["generation"])):
+            writer.writerow(
+                {
+                    "generation": stats["generation"][i],
+                    "best_fitness": stats["best_fitness"][i],
+                    "avg_fitness": stats["avg_fitness"][i],
+                    "std_fitness": stats["std_fitness"][i],
+                    "diversity": stats["diversity"][i],
+                    "best_string": stats["best_string"][i],
+                }
+            )
+
+    print(f"Results saved to {filepath}")
+
+
+def save_summary_to_json(results_list, filename="experiment_summary.json"):
+    """Save experiment summary to JSON file."""
+    summary = []
+
+    filepath = RESULTS_DIR / filename
+
+    for result in results_list:
+        summary.append(
+            {
+                "config": result["config"],
+                "generations_to_target": result["generations_to_target"],
+                "target_reached": result["target_reached"],
+                "final_best_fitness": result["final_best_fitness"],
+                "final_avg_fitness": result["final_avg_fitness"],
+                "final_diversity": result["final_diversity"],
+            }
+        )
+
+    with open(filepath, "w") as jsonfile:
+        json.dump(summary, jsonfile, indent=2)
+
+    print(f"Summary saved to {filepath}")
+
+
+def run_comprehensive_experiment(target="HELLO WORLD", runs_per_config=5):
+    """
+    Run comprehensive experiments comparing all mutation, crossover, and selection methods.
+    """
+    mutation_methods = ["simple", "gaussian", "swap", "adaptive"]
+    crossover_methods = ["one_point", "two_point", "uniform", "blend"]
+    selection_methods = ["tournament", "roulette", "best"]
+
+    all_results = []
+
+    print("=" * 80)
+    print("COMPREHENSIVE GENETIC ALGORITHM EXPERIMENT")
+    print("=" * 80)
+    print(f"Target: '{target}'")
+    print(f"Runs per configuration: {runs_per_config}")
+    print(
+        f"Total configurations: {len(mutation_methods) * len(crossover_methods) * len(selection_methods)}"
+    )
+    print("=" * 80)
+
+    config_num = 0
+    total_configs = (
+        len(mutation_methods) * len(crossover_methods) * len(selection_methods)
     )
 
-    # Create visualizations
+    for mutation in mutation_methods:
+        for crossover in crossover_methods:
+            for selection in selection_methods:
+                config_num += 1
+                print(
+                    f"\n[{config_num}/{total_configs}] Testing: {mutation} mutation + {crossover} crossover + {selection} selection"
+                )
+                print("-" * 80)
+
+                config_results = []
+                for run in range(runs_per_config):
+                    print(f"  Run {run + 1}/{runs_per_config}...", end=" ")
+                    result = run_evolution(
+                        target=target,
+                        population_size=120,
+                        generations=2000,
+                        mutation_rate=0.05,
+                        crossover_rate=0.7,
+                        mutation_method=mutation,
+                        crossover_method=crossover,
+                        selection_method=selection,
+                        track_stats=True,
+                        verbose=False,
+                    )
+                    config_results.append(result)
+                    print(f"Done in {result['generations_to_target']} generations")
+
+                # Calculate average performance for this configuration
+                avg_generations = mean(
+                    [r["generations_to_target"] for r in config_results]
+                )
+                success_rate = (
+                    sum(1 for r in config_results if r["target_reached"])
+                    / runs_per_config
+                )
+
+                print(f"  Average generations: {avg_generations:.1f}")
+                print(f"  Success rate: {success_rate:.1%}")
+
+                # Store the best run for this configuration
+                best_run = min(config_results, key=lambda r: r["generations_to_target"])
+                best_run["avg_generations"] = avg_generations
+                best_run["success_rate"] = success_rate
+                all_results.append(best_run)
+
+    print("\n" + "=" * 80)
+    print("EXPERIMENT COMPLETE")
+    print("=" * 80)
+
+    return all_results
+
+
+if __name__ == "__main__":
+    target = sys.argv[2] if len(sys.argv) > 2 else "HELLO WORLD"
+    runs = int(sys.argv[3]) if len(sys.argv) > 3 else 2
+    top_n = int(sys.argv[4]) if len(sys.argv) > 4 else 2
+
+    all_results = run_comprehensive_experiment(target=target, runs_per_config=runs)
+
+    save_summary_to_json(all_results, "comprehensive_experiment.json")
+
+    sorted_results = sorted(all_results, key=lambda r: r["avg_generations"])
+
     print("\n" + "=" * 80)
     print("CREATING VISUALIZATIONS")
     print("=" * 80)
 
     try:
-        fig1 = plot_evolution_stats(
-            result1, "Configuration 1: Simple + One-Point + Tournament"
+        top_results = sorted_results[: min(top_n, 10)]  # max 10 for readability
+
+        fig = compare_configurations(
+            top_results,
+            metric="generations_to_target",
+            title=f"Top {len(top_results)} Configurations - Target: '{target}'",
         )
-        fig1.savefig(PLOTS_DIR / "evolution_config1.png", dpi=150, bbox_inches="tight")
-        print(f"\tSaved {PLOTS_DIR / 'evolution_config1.png'}")
+        fig.savefig(
+            PLOTS_DIR / f"top_{len(top_results)}_configurations.png",
+            dpi=150,
+            bbox_inches="tight",
+        )
+        print(f"\tSaved {PLOTS_DIR / f'top_{len(top_results)}_configurations.png'}")
+
+        for i, result in enumerate(top_results, 1):
+            config = result["config"]
+            title = f"Rank #{i}: {config['mutation_method'].capitalize()} + {config['crossover_method'].capitalize()} + {config['selection_method'].capitalize()}"
+
+            fig_detail = plot_evolution_stats(result, title)
+            filename = f"rank_{i}_config.png"
+            fig_detail.savefig(PLOTS_DIR / filename, dpi=150, bbox_inches="tight")
+            print(f"\tSaved {PLOTS_DIR / filename}")
+
+            csv_filename = f"rank_{i}_config.csv"
+            save_results_to_csv(result, csv_filename)
+
+        print("\n" + "=" * 80)
+        print(f"TOP {len(top_results)} CONFIGURATIONS SUMMARY")
+        print("=" * 80)
+
+        for i, result in enumerate(top_results, 1):
+            config = result["config"]
+            print(f"\n#{i} CONFIGURATION:")
+            print(f"\tMutation: {config['mutation_method']}")
+            print(f"\tCrossover: {config['crossover_method']}")
+            print(f"\tSelection: {config['selection_method']}")
+            print(f"\tAverage generations: {result['avg_generations']:.1f}")
+            print(f"\tSuccess rate: {result['success_rate']:.1%}")
+            print(f"\tBest run: {result['generations_to_target']} generations")
+
+        print("\n" + "=" * 80)
 
     except Exception as e:
         print(f"\tCould not create plots: {e}")
+        import traceback
+
+        traceback.print_exc()

@@ -1,0 +1,770 @@
+[
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 378,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.991666666666667,
+    "final_diversity": 0.05
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 1104,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.516666666666667,
+    "final_diversity": 0.2
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 908,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.25833333333333336,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 45,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.1,
+    "final_diversity": 0.06666666666666667
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 101,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.466666666666667,
+    "final_diversity": 0.13333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 6.0,
+    "final_avg_fitness": 0.14166666666666666,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 411,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.0,
+    "final_diversity": 0.041666666666666664
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 30,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 8.025,
+    "final_diversity": 0.625
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 35,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.275,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 154,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.008333333333333,
+    "final_diversity": 0.025
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 1332,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.85,
+    "final_diversity": 0.11666666666666667
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "simple",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 240,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.23333333333333334,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 886,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.008333333333333,
+    "final_diversity": 0.03333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 30,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 8.475,
+    "final_diversity": 0.5333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 1632,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.21666666666666667,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 443,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.008333333333333,
+    "final_diversity": 0.025
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 783,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.766666666666667,
+    "final_diversity": 0.075
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 9.0,
+    "final_avg_fitness": 0.20833333333333334,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 1182,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.008333333333333,
+    "final_diversity": 0.025
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 9.0,
+    "final_avg_fitness": 9.0,
+    "final_diversity": 0.016666666666666666
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 126,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.25,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 146,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 10.008333333333333,
+    "final_diversity": 0.025
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 318,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.983333333333333,
+    "final_diversity": 0.03333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "gaussian",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 177,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.18333333333333332,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 10.0,
+    "final_avg_fitness": 9.933333333333334,
+    "final_diversity": 0.03333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 10.0,
+    "final_avg_fitness": 9.775,
+    "final_diversity": 0.14166666666666666
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 362,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.30833333333333335,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 8.0,
+    "final_avg_fitness": 7.958333333333333,
+    "final_diversity": 0.03333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 36,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 8.166666666666666,
+    "final_diversity": 0.4083333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 7.0,
+    "final_avg_fitness": 0.24166666666666667,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 140,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.933333333333334,
+    "final_diversity": 0.06666666666666667
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 36,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.475,
+    "final_diversity": 0.325
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 125,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.275,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 8.0,
+    "final_avg_fitness": 7.966666666666667,
+    "final_diversity": 0.03333333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 34,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.35,
+    "final_diversity": 0.43333333333333335
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "swap",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 339,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.21666666666666667,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 76,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.975,
+    "final_diversity": 0.05
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 35,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 8.033333333333333,
+    "final_diversity": 0.6583333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "one_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 1290,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.19166666666666668,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 220,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.991666666666667,
+    "final_diversity": 0.041666666666666664
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 377,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.55,
+    "final_diversity": 0.18333333333333332
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "two_point",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 2000,
+    "target_reached": false,
+    "final_best_fitness": 7.0,
+    "final_avg_fitness": 0.18333333333333332,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 134,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.991666666666667,
+    "final_diversity": 0.058333333333333334
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 21,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 7.375,
+    "final_diversity": 0.8833333333333333
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "uniform",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 1120,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.2,
+    "final_diversity": 1.0
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "tournament"
+    },
+    "generations_to_target": 267,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.983333333333333,
+    "final_diversity": 0.05
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "roulette"
+    },
+    "generations_to_target": 1108,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 9.958333333333334,
+    "final_diversity": 0.058333333333333334
+  },
+  {
+    "config": {
+      "target": "HELLO WORLD",
+      "population_size": 120,
+      "mutation_method": "adaptive",
+      "mutation_rate": 0.05,
+      "crossover_method": "blend",
+      "crossover_rate": 0.7,
+      "selection_method": "best"
+    },
+    "generations_to_target": 334,
+    "target_reached": true,
+    "final_best_fitness": 11.0,
+    "final_avg_fitness": 0.24166666666666667,
+    "final_diversity": 1.0
+  }
+]
