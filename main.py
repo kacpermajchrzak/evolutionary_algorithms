@@ -563,65 +563,234 @@ def run_comprehensive_experiment(target="HELLO WORLD", runs_per_config=5):
 
 
 if __name__ == "__main__":
-    target = sys.argv[2] if len(sys.argv) > 2 else "HELLO WORLD"
-    runs = int(sys.argv[3]) if len(sys.argv) > 3 else 2
-    top_n = int(sys.argv[4]) if len(sys.argv) > 4 else 2
+    # Choose mode: 'demo', 'experiment', or 'single'
+    mode = sys.argv[1] if len(sys.argv) > 1 else "experiment"
 
-    all_results = run_comprehensive_experiment(target=target, runs_per_config=runs)
-
-    save_summary_to_json(all_results, "comprehensive_experiment.json")
-
-    sorted_results = sorted(all_results, key=lambda r: r["avg_generations"])
-
-    print("\n" + "=" * 80)
-    print("CREATING VISUALIZATIONS")
-    print("=" * 80)
-
-    try:
-        top_results = sorted_results[: min(top_n, 10)]  # max 10 for readability
-
-        fig = compare_configurations(
-            top_results,
-            metric="generations_to_target",
-            title=f"Top {len(top_results)} Configurations - Target: '{target}'",
-        )
-        fig.savefig(
-            PLOTS_DIR / f"top_{len(top_results)}_configurations.png",
-            dpi=150,
-            bbox_inches="tight",
-        )
-        print(f"\tSaved {PLOTS_DIR / f'top_{len(top_results)}_configurations.png'}")
-
-        for i, result in enumerate(top_results, 1):
-            config = result["config"]
-            title = f"Rank #{i}: {config['mutation_method'].capitalize()} + {config['crossover_method'].capitalize()} + {config['selection_method'].capitalize()}"
-
-            fig_detail = plot_evolution_stats(result, title)
-            filename = f"rank_{i}_config.png"
-            fig_detail.savefig(PLOTS_DIR / filename, dpi=150, bbox_inches="tight")
-            print(f"\tSaved {PLOTS_DIR / filename}")
-
-            csv_filename = f"rank_{i}_config.csv"
-            save_results_to_csv(result, csv_filename)
-
+    if mode == "demo":
+        # Quick demonstration with three different configurations
         print("\n" + "=" * 80)
-        print(f"TOP {len(top_results)} CONFIGURATIONS SUMMARY")
+        print("DEMONSTRATION MODE - Running 3 example configurations")
         print("=" * 80)
 
-        for i, result in enumerate(top_results, 1):
-            config = result["config"]
-            print(f"\n#{i} CONFIGURATION:")
-            print(f"\tMutation: {config['mutation_method']}")
-            print(f"\tCrossover: {config['crossover_method']}")
-            print(f"\tSelection: {config['selection_method']}")
-            print(f"\tAverage generations: {result['avg_generations']:.1f}")
-            print(f"\tSuccess rate: {result['success_rate']:.1%}")
-            print(f"\tBest run: {result['generations_to_target']} generations")
+        # Example 1: Simple mutation + one-point crossover
+        result1 = run_evolution(
+            target="HELLO WORLD",
+            population_size=120,
+            generations=2000,
+            mutation_rate=0.05,
+            crossover_rate=0.7,
+            mutation_method="simple",
+            crossover_method="one_point",
+            selection_method="tournament",
+            track_stats=True,
+            verbose=True,
+        )
+
+        # Example 2: Gaussian mutation + uniform crossover
+        print("\n\n")
+        result2 = run_evolution(
+            target="HELLO WORLD",
+            population_size=120,
+            generations=2000,
+            mutation_rate=0.05,
+            crossover_rate=0.7,
+            mutation_method="gaussian",
+            crossover_method="uniform",
+            selection_method="roulette",
+            track_stats=True,
+            verbose=True,
+        )
+
+        # Example 3: Adaptive mutation + two-point crossover
+        print("\n\n")
+        result3 = run_evolution(
+            target="HELLO WORLD",
+            population_size=120,
+            generations=2000,
+            mutation_rate=0.05,
+            crossover_rate=0.7,
+            mutation_method="adaptive",
+            crossover_method="two_point",
+            selection_method="tournament",
+            track_stats=True,
+            verbose=True,
+        )
 
         print("\n" + "=" * 80)
+        print("CREATING VISUALIZATIONS")
+        print("=" * 80)
 
-    except Exception as e:
-        print(f"\tCould not create plots: {e}")
-        import traceback
+        try:
+            fig1 = plot_evolution_stats(
+                result1, "Configuration 1: Simple + One-Point + Tournament"
+            )
+            fig1.savefig(
+                PLOTS_DIR / "evolution_config1.png", dpi=150, bbox_inches="tight"
+            )
+            print(f"\tSaved {PLOTS_DIR / 'evolution_config1.png'}")
 
-        traceback.print_exc()
+            fig2 = plot_evolution_stats(
+                result2, "Configuration 2: Gaussian + Uniform + Roulette"
+            )
+            fig2.savefig(
+                PLOTS_DIR / "evolution_config2.png", dpi=150, bbox_inches="tight"
+            )
+            print(f"\tSaved {PLOTS_DIR / 'evolution_config2.png'}")
+
+            fig3 = plot_evolution_stats(
+                result3, "Configuration 3: Adaptive + Two-Point + Tournament"
+            )
+            fig3.savefig(
+                PLOTS_DIR / "evolution_config3.png", dpi=150, bbox_inches="tight"
+            )
+            print(f"\tSaved {PLOTS_DIR / 'evolution_config3.png'}")
+
+            # Comparison chart
+            fig_compare = compare_configurations(
+                [result1, result2, result3],
+                metric="generations_to_target",
+                title="Comparison: Generations to Target",
+            )
+            fig_compare.savefig(
+                PLOTS_DIR / "comparison.png", dpi=150, bbox_inches="tight"
+            )
+            print(f"\tSaved {PLOTS_DIR / 'comparison.png'}")
+
+        except Exception as e:
+            print(f"\tCould not create plots: {e}")
+
+        # Save data
+        save_results_to_csv(result1, "results_config1.csv")
+        save_results_to_csv(result2, "results_config2.csv")
+        save_results_to_csv(result3, "results_config3.csv")
+        save_summary_to_json([result1, result2, result3], "demo_summary.json")
+
+    elif mode == "experiment":
+        # Full comprehensive experiment
+        target = sys.argv[2] if len(sys.argv) > 2 else "HELLO WORLD"
+        runs = int(sys.argv[3]) if len(sys.argv) > 3 else 2
+        top_n = int(sys.argv[4]) if len(sys.argv) > 4 else 2
+
+        all_results = run_comprehensive_experiment(target=target, runs_per_config=runs)
+
+        # Save comprehensive results
+        save_summary_to_json(all_results, "comprehensive_experiment.json")
+
+        # Sort by performance
+        sorted_results = sorted(all_results, key=lambda r: r["avg_generations"])
+
+        # Create comparison visualizations
+        print("\n" + "=" * 80)
+        print("CREATING VISUALIZATIONS")
+        print("=" * 80)
+
+        try:
+            # Top N best configurations comparison
+            top_results = sorted_results[: min(top_n, 10)]  # max 10 for readability
+
+            fig = compare_configurations(
+                top_results,
+                metric="generations_to_target",
+                title=f"Top {len(top_results)} Configurations - Target: '{target}'",
+            )
+            fig.savefig(
+                PLOTS_DIR / f"top_{len(top_results)}_configurations.png",
+                dpi=150,
+                bbox_inches="tight",
+            )
+            print(f"\tSaved {PLOTS_DIR / f'top_{len(top_results)}_configurations.png'}")
+
+            # Create detailed plots for each top configuration
+            for i, result in enumerate(top_results, 1):
+                config = result["config"]
+                title = f"Rank #{i}: {config['mutation_method'].capitalize()} + {config['crossover_method'].capitalize()} + {config['selection_method'].capitalize()}"
+
+                fig_detail = plot_evolution_stats(result, title)
+                filename = f"rank_{i}_config.png"
+                fig_detail.savefig(PLOTS_DIR / filename, dpi=150, bbox_inches="tight")
+                print(f"\tSaved {PLOTS_DIR / filename}")
+
+                # Save detailed CSV for each top configuration
+                csv_filename = f"rank_{i}_config.csv"
+                save_results_to_csv(result, csv_filename)
+
+            # Print summary of top configurations
+            print("\n" + "=" * 80)
+            print(f"TOP {len(top_results)} CONFIGURATIONS SUMMARY")
+            print("=" * 80)
+
+            for i, result in enumerate(top_results, 1):
+                config = result["config"]
+                print(f"\n#{i} CONFIGURATION:")
+                print(f"\tMutation: {config['mutation_method']}")
+                print(f"\tCrossover: {config['crossover_method']}")
+                print(f"\tSelection: {config['selection_method']}")
+                print(f"\tAverage generations: {result['avg_generations']:.1f}")
+                print(f"\tSuccess rate: {result['success_rate']:.1%}")
+                print(f"\tBest run: {result['generations_to_target']} generations")
+
+            print("\n" + "=" * 80)
+
+        except Exception as e:
+            print(f"\tCould not create plots: {e}")
+            import traceback
+
+            traceback.print_exc()
+
+    elif mode == "single":
+        # Run a single custom configuration
+        target = sys.argv[2] if len(sys.argv) > 2 else "HELLO WORLD"
+        mutation = sys.argv[3] if len(sys.argv) > 3 else "adaptive"
+        crossover = sys.argv[4] if len(sys.argv) > 4 else "uniform"
+        selection = sys.argv[5] if len(sys.argv) > 5 else "tournament"
+
+        result = run_evolution(
+            target=target,
+            population_size=120,
+            generations=2000,
+            mutation_rate=0.05,
+            crossover_rate=0.7,
+            mutation_method=mutation,
+            crossover_method=crossover,
+            selection_method=selection,
+            track_stats=True,
+            verbose=True,
+        )
+
+        try:
+            fig = plot_evolution_stats(
+                result, f"Custom Configuration: {mutation}-{crossover}-{selection}"
+            )
+            fig.savefig(PLOTS_DIR / "custom_run.png", dpi=150, bbox_inches="tight")
+            print(f"\n\tSaved {PLOTS_DIR / 'custom_run.png'}")
+        except Exception as e:
+            print(f"\n\tCould not create plot: {e}")
+
+        save_results_to_csv(result, "custom_run.csv")
+        save_summary_to_json([result], "custom_run.json")
+
+    else:
+        print("Usage:")
+        print(
+            "\tpython main.py                         # Run comprehensive experiment (default)"
+        )
+        print(
+            "\tpython main.py experiment [target] [runs] [top_n]  # Run comprehensive experiment with custom params"
+        )
+        print(
+            "\tpython main.py demo                    # Run quick demonstration with 3 configurations"
+        )
+        print(
+            "\tpython main.py single [target] [mutation] [crossover] [selection]  # Run single custom configuration"
+        )
+        print("\nMutation methods: simple, gaussian, swap, adaptive")
+        print("Crossover methods: one_point, two_point, uniform, blend")
+        print("Selection methods: tournament, roulette, best")
+        print("\nExamples:")
+        print(
+            "\tpython main.py                         # Default: comprehensive with 2 runs, top 2 configs"
+        )
+        print(
+            "\tpython main.py experiment 'HELLO' 3 5  # Target='HELLO', 3 runs per config, show top 5"
+        )
+        print("\tpython main.py single 'TEST' adaptive uniform tournament")
